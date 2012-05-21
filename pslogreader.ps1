@@ -32,10 +32,10 @@ foreach ($server in $copyServers) {
         Write-Host 
         $logFiles = Get-ChildItem $logFileRPath\$copyMachine | where { $_.LastWriteTime.Day -lt $logFileDate}
          foreach ($objFile in $logFiles) {
-            Write-Host $objFile
+            #Write-Host $objFile
             Write-Host "Processing File $objFile from $copyMachine for volume $copyVolume"
             $fileName = "$copyVolume-error-$objFile"
-            $objresult = test-path -path "$logFileEPath*" -include $fileName
+            $objresult = test-path -path "$logFileEPath\*" -include $fileName
                 if ($objresult -like "False"){
                     Write-Host "processing Logfile" $objfile
                     Get-Content $logFileRPath\$copyMachine\$objFile -read 10000 | %{$_} | ? {$_ -like '*Error   *'} | Out-File $logFileEPath\$fileName
