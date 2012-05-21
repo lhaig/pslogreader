@@ -6,13 +6,12 @@ $logFileEPath = "D:\Logs\errors"
 $logFileDate = $d.Day - 1
 # Add more copy machines to the file below.
 $copyServers = Import-Csv $logFileWPath\qmcopyservers.txt
-Write-Host "LogDate Is" $logFileDate
+#Write-Host "LogDate Is" $logFileDate
 #Write-Host $logFiles
 #Write-Host $logFileRPath
 #Write-Host $logFileWPath
 #Write-Host $logFileDate
 #Write-Host $copyServers
-Write-Host
 Write-Host "Copy Servers To Use"
 foreach ($server in $copyServers) {
         $copyMachine = $server.CopyMachine
@@ -22,7 +21,7 @@ foreach ($server in $copyServers) {
         Write-Host $copyMachine
         $logFileMPath = "$logFileRPath\$copyMachine"
         if (!(Test-Path -path $logFileRPath\$copyMachine)) {New-Item $logFileRPath\$copyMachine -Type Directory}
-        $sourceLog = gci $sourcePath\*Scan.log |? {!$_.PsIsContainer} | % {$_.Name} | where { $_.LastWriteTime.Day -lt $logFileDate}
+        $sourceLog = Get-ChildItem $sourcePath\* |? {!$_.PsIsContainer} | % {$_.Name} | where { $_.LastWriteTime.Day -lt $logFileDate}
         foreach ($log in $sourceLog) {
             $result = test-path -path "$logFileMPath\*" -include $log
                 if ($result -like "False"){
@@ -31,9 +30,15 @@ foreach ($server in $copyServers) {
                 }
              }
         Write-Host 
-        $logFiles = Get-ChildItem -recurse $logFileRPath | where { $_.LastWriteTime.Day -eq $logFileDate}
-        foreach ($objFile in $logFiles) {
+        $logFiles = Get-ChildItem $logFileRPath\$copyMachine | where { $_.LastWriteTime.Day -lt $logFileDate}
+         foreach ($objFile in $logFiles) {
+            Write-Host $objFile
+            Write-Host "Processing File $objFile from $copyMachine for volume $copyVolume"
             $fileName = "$copyVolume-error-$objFile"
-            gc $logFileRPath\$copyMachine\$objFile -read 10000 | %{$_} | ? {$_ -like '*Error   *'} | Out-File $logFileEPath\$fileName
+            $objresult = test-path -path "$logFileEPath*" -include $fileName
+                if ($objresult -like "False"){
+                    Write-Host "processing Logfile" $objfile
+                    Get-Content $logFileRPath\$copyMachine\$objFile -read 10000 | %{$_} | ? {$_ -like '*Error   *'} | Out-File $logFileEPath\$fileName
+                }
             }
         }
