@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<configuration>
+  <startup>
+    <supportedRuntime version="v2.0.50727" safemode="true"/>
+    <requiredRuntime version="v2.0.50727" safemode="true"/>
+  </startup>
+  <appSettings>
+	<!-- Where is the script running from -->
+    <add key="LogFileRootPath" value="D:\LogsDev" />
+	<!-- Where are the logs downloaded to -->
+    <add key="LogFileStorePath" value="D:\LogsDev\logs" />
+	<!-- Where are the exported error logs being exported to -->
+    <add key="LogFileErrorPath" value="D:\LogsDev\errors" />
+	<!-- The name of the file that contains the list of the copy servers -->
+    <add key="CopyServerFileName" value="qmcopyservers.txt" />
+		<!-- The name of the file that contains the list of the copy servers -->
+    <add key="CopyServerSourcePath" value="ndsmig\Logs\File Migration" />
+    <!-- How many processors in your log parsing system  -->
+    <add key="NumberOfProcessors" value="4" />
+	<!-- Debug. 0 – Off, 1 – On -->
+    <add key="Debug" value="0" />
+  </appSettings>
+</configuration>
