@@ -41,5 +41,4 @@ you are working on.
 
 
 ## Copyright
-GPLv2
-Copyright (c) 2012 Lance Haig. See LICENSE.txt for details.
+Copyright (c) GPLv2. See LICENSE.txt for details.
