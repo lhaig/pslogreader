@@ -41,4 +41,4 @@ you are working on.
 
 
 ## Copyright
-Copyright (c) GPLv2. See LICENSE.txt for details.
+Copyright (c) GPLv3. See LICENSE.txt for details.
